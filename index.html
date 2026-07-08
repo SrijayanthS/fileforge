@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FileForge | Image and PDF Resizer</title>
+  <link rel="icon" href="assets/Logo_FileForge.jpg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-content">
+        <img class="brand-logo" src="assets/Logo_FileForge.jpg" alt="FileForge logo">
+        <div class="brand-text">
+          <p class="eyebrow">Browser-based file tools</p>
+          <div class="brand-title-row">
+            <h1>FileForge</h1>
+            <span class="version-pill">v1.0.0</span>
+          </div>
+          <p class="hero-copy">Resize, convert, and manage image and PDF files right in your browser.</p>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">
+          <span id="theme-icon" aria-hidden="true">D</span>
+          <span id="theme-label">Dark mode</span>
+        </button>
+        <div class="privacy-badge" aria-label="Privacy note">
+          <span class="privacy-dot"></span>
+          Local processing
+        </div>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <nav class="tabs" aria-label="Tool sections">
+        <button class="tab-button active" type="button" data-tab="image-panel" aria-selected="true">Image Tools</button>
+        <button class="tab-button" type="button" data-tab="pdf-panel" aria-selected="false">PDF Tools</button>
+      </nav>
+
+      <section id="image-panel" class="tool-panel active" aria-labelledby="image-tools-title">
+        <div class="panel-header">
+          <div>
+            <h2 id="image-tools-title">Image Resizer and Converter</h2>
+            <p>Upload a JPG, PNG, or WebP file, choose output settings, and download the processed image.</p>
+          </div>
+        </div>
+
+        <div class="tool-grid">
+          <div class="tool-column">
+            <label class="upload-zone" id="image-drop-zone" for="image-input">
+              <input id="image-input" type="file" accept="image/jpeg,image/png,image/webp">
+              <span class="upload-icon" aria-hidden="true">+</span>
+              <span class="upload-copy">
+                <strong>Drop an image here</strong>
+                <small>or click to upload JPG, PNG, or WebP</small>
+              </span>
+              <span class="drop-hint">Release to load your image</span>
+            </label>
+
+            <div id="image-message" class="message" role="status" aria-live="polite"></div>
+            <div id="image-processing" class="processing-indicator" role="status" aria-live="polite" hidden>
+              <span class="spinner" aria-hidden="true"></span>
+              <span>Processing image...</span>
+            </div>
+
+            <div class="preview-card">
+              <div class="preview-frame">
+                <img id="image-preview" alt="Uploaded image preview">
+                <p id="image-placeholder">Your image preview will appear here.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-column">
+            <div class="info-card">
+              <h3>Image Details</h3>
+              <dl class="file-details">
+                <div>
+                  <dt>Name</dt>
+                  <dd id="image-name">No image selected</dd>
+                </div>
+                <div>
+                  <dt>Format</dt>
+                  <dd id="image-format">Waiting for upload</dd>
+                </div>
+                <div>
+                  <dt>Dimensions</dt>
+                  <dd id="image-dimensions">Upload an image to inspect it</dd>
+                </div>
+                <div>
+                  <dt>Size</dt>
+                  <dd id="image-size">Not available yet</dd>
+                </div>
+                <div>
+                  <dt>Processed</dt>
+                  <dd id="image-output-size">Process an image to see output size</dd>
+                </div>
+              </dl>
+            </div>
+
+            <form class="settings-card" id="image-settings">
+              <h3>Output Settings</h3>
+              <div class="input-row">
+                <label for="resize-width">Width</label>
+                <input id="resize-width" type="number" min="1" step="1" placeholder="Width">
+              </div>
+              <div class="input-row">
+                <label for="resize-height">Height</label>
+                <input id="resize-height" type="number" min="1" step="1" placeholder="Height">
+              </div>
+              <label class="checkbox-row">
+                <input id="keep-ratio" type="checkbox" checked>
+                <span>Maintain aspect ratio</span>
+              </label>
+              <div class="input-row">
+                <label for="output-format">Convert to</label>
+                <select id="output-format">
+                  <option value="image/jpeg">JPG</option>
+                  <option value="image/png">PNG</option>
+                  <option value="image/webp">WebP</option>
+                </select>
+              </div>
+              <div class="input-row">
+                <label for="quality-slider">Quality <span id="quality-value">82%</span></label>
+                <input id="quality-slider" type="range" min="10" max="100" value="82">
+              </div>
+              <label class="checkbox-row">
+                <input id="compress-image" type="checkbox" checked>
+                <span>Compress image</span>
+              </label>
+              <div class="button-row">
+                <button id="process-image" class="primary-button" type="button" disabled>Process Image</button>
+                <a id="download-image" class="secondary-button disabled" href="#" aria-disabled="true" download>Download</a>
+                <button id="clear-image" class="secondary-button action-button" type="button" disabled>Clear</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section id="pdf-panel" class="tool-panel" aria-labelledby="pdf-tools-title">
+        <div class="panel-header">
+          <div>
+            <h2 id="pdf-tools-title">PDF Tools</h2>
+            <p>Inspect a PDF locally and keep the workspace ready for future document features.</p>
+          </div>
+        </div>
+
+        <div class="tool-grid">
+          <div class="tool-column">
+            <label class="upload-zone" id="pdf-drop-zone" for="pdf-input">
+              <input id="pdf-input" type="file" accept="application/pdf" multiple>
+              <span class="upload-icon pdf-icon" aria-hidden="true">PDF</span>
+              <span class="upload-copy">
+                <strong>Drop PDFs here</strong>
+                <small>or click to upload one or more PDF files</small>
+              </span>
+              <span class="drop-hint">Release to inspect PDFs</span>
+            </label>
+
+            <div id="pdf-message" class="message" role="status" aria-live="polite"></div>
+            <div id="pdf-processing" class="processing-indicator" role="status" aria-live="polite" hidden>
+              <span class="spinner" aria-hidden="true"></span>
+              <span>Processing PDF...</span>
+            </div>
+
+            <div class="info-card">
+              <h3>PDF Details</h3>
+              <dl class="file-details">
+                <div>
+                  <dt>Name</dt>
+                  <dd id="pdf-name">No PDF selected</dd>
+                </div>
+                <div>
+                  <dt>Size</dt>
+                  <dd id="pdf-size">Not available yet</dd>
+                </div>
+                <div>
+                  <dt>Output</dt>
+                  <dd id="pdf-output-size">Process a PDF to see output size</dd>
+                </div>
+                <div>
+                  <dt>Version</dt>
+                  <dd id="pdf-version">Waiting for upload</dd>
+                </div>
+                <div>
+                  <dt>Pages</dt>
+                  <dd id="pdf-pages">Upload a PDF to count pages</dd>
+                </div>
+                <div>
+                  <dt>Status</dt>
+                  <dd id="pdf-status">Ready when you are</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+
+          <div class="tool-column">
+            <div class="settings-card">
+              <h3>PDF Actions</h3>
+              <p class="card-note">Merge uploaded PDFs, split the first PDF by page range, or convert an image into a PDF.</p>
+
+              <div class="input-row">
+                <label for="split-range">Split page range</label>
+                <input id="split-range" type="text" inputmode="text" placeholder="Example: 1-3, 5">
+              </div>
+
+              <label class="upload-zone compact-upload" id="pdf-image-drop-zone" for="pdf-image-input">
+                <input id="pdf-image-input" type="file" accept="image/jpeg,image/png,image/webp">
+                <span class="upload-icon" aria-hidden="true">+</span>
+                <span class="upload-copy">
+                  <strong>Image to PDF</strong>
+                  <small>Drop or select JPG, PNG, or WebP</small>
+                </span>
+                <span class="drop-hint">Release to convert</span>
+              </label>
+
+              <div class="pdf-button-grid">
+                <button id="merge-pdf" class="primary-button" type="button" disabled>Merge PDFs</button>
+                <button id="split-pdf" class="secondary-button action-button" type="button" disabled>Split PDF</button>
+                <button id="image-to-pdf" class="secondary-button action-button" type="button" disabled>Image to PDF</button>
+                <a id="download-pdf" class="secondary-button disabled" href="#" aria-disabled="true" download>Download PDF</a>
+                <button id="clear-pdf" class="secondary-button action-button" type="button" disabled>Clear</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="product-info" aria-label="Product information">
+      <article class="product-section" id="about">
+        <p class="section-kicker">About</p>
+        <h2>File tools that stay on your device</h2>
+        <p>FileForge helps you resize images, convert image formats, merge PDFs, split PDFs by page range, and turn images into PDFs without sending your files to a backend service.</p>
+      </article>
+
+      <article class="product-section" id="help">
+        <p class="section-kicker">Help / FAQ</p>
+        <h2>Common questions</h2>
+        <div class="faq-list">
+          <details>
+            <summary>Which image files can I use?</summary>
+            <p>FileForge supports JPG, PNG, and WebP images for upload, preview, resizing, conversion, and image-to-PDF export.</p>
+          </details>
+          <details>
+            <summary>How do I split a PDF?</summary>
+            <p>Upload a PDF, enter a range such as 1-3 or 2,4,6, then select Split PDF. The first uploaded PDF is used for splitting.</p>
+          </details>
+          <details>
+            <summary>Why are some buttons disabled?</summary>
+            <p>Actions become available when the right file is loaded. For example, merge needs at least two PDFs, and download appears after processing finishes.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="product-section" id="privacy">
+        <p class="section-kicker">Privacy</p>
+        <h2>Private by design</h2>
+        <p>Your files are processed locally in your browser. FileForge does not upload images or PDFs to a server, and there is no backend receiving your documents.</p>
+      </article>
+    </section>
+
+    <footer class="site-footer">
+      <span>Built by Srijayanth Saseendran © 2026</span>
+    </footer>
+  </div>
+
+  <script src="assets/pdf-lib.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
