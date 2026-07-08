@@ -1,6 +1,6 @@
 FileForge
 
-A browser-based image and PDF toolkit for resizing, converting, compressing, and managing files entirely in your browser.
+A browser based image and PDF toolkit for resizing, converting, compressing, and managing files entirely in your browser.
 
 Web App link: https://srijayanths.github.io/fileforge/
 
