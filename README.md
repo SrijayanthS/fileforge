@@ -1,8 +1,8 @@
-# FileForge
+FileForge
 
 A browser-based image and PDF toolkit for resizing, converting, compressing, and managing files entirely in your browser.
 
-Live Demo:** https://srijayanths.github.io/fileforge/
+Live Demo: https://srijayanths.github.io/fileforge/
 
 Features
 
@@ -26,7 +26,6 @@ Features
 - Local browser processing (no server uploads)
 
  Tech Stack
-
 - HTML5
 - CSS3
 - JavaScript
